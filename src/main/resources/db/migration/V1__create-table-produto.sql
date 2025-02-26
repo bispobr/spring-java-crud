@@ -1,0 +1,5 @@
+CREATE TABLE produto(
+    id TEXT PRIMARY KEY UNIQUE NOT NULL,
+    nome TEXT NOT NULL,
+    preco INT NOT NULL
+);
