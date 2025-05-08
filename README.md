@@ -1,7 +1,30 @@
-# Spring java crud
-Este repositório contém um projeto CRUD simples construído usando Java Spring. O objetivo deste repositório é praticar e construir todos os métodos CRUD usando o Java Spring.
+# API REST para Gerenciamento de Produtos
 
-## Instalação
+## Descrição
+
+Esta aplicação é uma API REST desenvolvida para gerenciar produtos, oferecendo suporte completo às operações básicas de um CRUD:  
+- **Criar** um produto  
+- **Listar** produtos  
+- **Atualizar** um produto existente  
+- **Excluir** um produto
+
+## Tecnologias Utilizadas
+
+- **Java + Spring Boot** – Framework principal da aplicação
+- **Lombok (@Slf4j)** – Geração de logs
+- **Swagger** – Documentação interativa da API
+- **Spring Boot Actuator** – Monitoramento e verificação de saúde da aplicação
+- **Integração Actuator + Swagger** – Permite monitorar a saúde da API diretamente pela interface de documentação
+- **PostgreSQL** – Banco de dados relacional utilizado
+- **Flyway** – Gerenciamento e versionamento das migrations do banco de dados
+
+## Requisitos
+
+- Java 21+
+- Maven 
+- PostgreSQL
+
+## Executando o Projeto
 
 1. Clone o repositório:
 
@@ -9,23 +32,21 @@ Este repositório contém um projeto CRUD simples construído usando Java Spring
 git https://github.com/bispobr/spring-java-crud.git
 ```
 
-2. Instale as dependências com Maven
+2. Altere o arquivo de configuração **application.properties** com as credenciais de login do PostgreSQL do seu ambiente. 
 
 ## Como usar
 
 1. Inicie a aplicação 
-2. A API está acessivel atraves do endereço http://localhost:8080
+2. A API está acessível através do endereço http://localhost:8080
+3. A documentação da API está acessível através do Link http://localhost:8080/swagger-ui/index.html#/
+4. O endpoint de saúde e métricas do Actuator está acessível através do Link http://localhost:8080/actuator/health
 
 
 ## API Endpoints
-A API contem os seguintes endpoints :
+ API contem os seguintes endpoints:
 
 ```http request
-GET /produto - Retorna uma Lista com todos os objetos.
-```
-
-```http request
-POST /produto - Registra um novo objeto.
+POST /produto - Cadastra um novo produto
 Content-Type: application/json
 
 {
@@ -33,9 +54,20 @@ Content-Type: application/json
   "preco": 00000
 }
 ```
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `nome` | `String` | **Obrigatório**. O nome do produto 
+| `preco` | `Integer` | **Obrigatório**. O preço do produto 
+
 
 ```http request
-PUT / - Altera Um objeto.
+GET /produto -  Lista todos os produtos
+```
+
+
+
+```http request
+PUT /produto - Atualizar um produto existente
 Content-Type: application/json
 
 {
@@ -45,8 +77,14 @@ Content-Type: application/json
 }
 ```
 
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `id` | `String` | **Obrigatório**. O id do produto 
+| `nome` | `String` | **Obrigatório**. O nome do produto 
+| `preco` | `Integer` | **Obrigatório**. O preço do produto 
+
 ```http request
-DELETE / - Exclui Um objeto.
+DELETE /produto - Remover um produto.
 Content-Type: application/json
 
 {
@@ -55,7 +93,10 @@ Content-Type: application/json
  "preco": 00
 }
 ```
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `id` | `String` | **Obrigatório**. O id do produto 
+| `nome` | `String` | **Obrigatório**. O nome do produto 
+| `preco` | `Integer` | **Obrigatório**. O preço do produto 
 
-## Banco de Dados
-Esse projeto utiliza o PostgresSQL como Banco de Dados. Todas as migrations são gerenciadas atraves do Flyway.
 
