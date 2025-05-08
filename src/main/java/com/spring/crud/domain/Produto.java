@@ -1,5 +1,6 @@
-package com.spring.crud.domain.produto;
+package com.spring.crud.domain;
 
+import com.spring.crud.dto.RequisicaoProdutoDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,8 +19,8 @@ public class Produto {
     private String nome;
     private Integer preco;
 
-    public Produto(RequisicaoProduto requisicaoProduto){
-        this.nome = requisicaoProduto.nome();
-        this.preco = requisicaoProduto.preco();
+    public Produto(RequisicaoProdutoDto requisicaoProdutoDto){
+        this.nome = requisicaoProdutoDto.nome();
+        this.preco = requisicaoProdutoDto.preco();
     }
 }
