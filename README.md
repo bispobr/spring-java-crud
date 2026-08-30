@@ -1,110 +1,208 @@
 # API REST para Gerenciamento de Produtos
 
-## Descrição
+API REST desenvolvida com Java e Spring Boot para gerenciamento de produtos, disponibilizando operações de criação, consulta, atualização e exclusão.
 
-Esta aplicação é uma API REST desenvolvida para gerenciar produtos, oferecendo suporte  às operações básicas de um CRUD:
-- **Criar** um produto
-- **Listar** produtos
-- **Atualizar** um produto existente
-- **Excluir** um produto
+O projeto também demonstra práticas comuns no desenvolvimento de APIs REST, incluindo validação, tratamento global de exceções, cache, documentação OpenAPI, monitoramento, persistência com PostgreSQL, versionamento do banco de dados e execução em containers.
 
-## Tecnologias Utilizadas
+## Funcionalidades
 
-- **Java + Spring Boot** – Framework principal da aplicação
-- **Lombok (@Slf4j)** – Geração de logs
-- **Cache** – uso de cache local
-- **Tratamento de Exceções** - @RestControllerAdvice
-- **Swagger** – Documentação interativa da API
-- **Spring Boot Actuator** – Monitoramento e verificação de saúde da aplicação
-- **Integração Actuator + Swagger** – Permite monitorar a saúde da API diretamente pela interface de documentação
-- **PostgreSQL** – Banco de dados relacional utilizado
-- **Docker** – criação, implantação e gerenciamento de aplicações dentro de contêineres.
-- **Flyway** – Gerenciamento e versionamento das migrations do banco de dados
+- Cadastro de produtos
+- Listagem de produtos
+- Consulta de produto por ID
+- Atualização de produto
+- Exclusão de produto
+- Validação dos dados de entrada
+- Tratamento global de exceções com `@RestControllerAdvice`
+- Cache local
+- Logging
+- Documentação interativa com Swagger/OpenAPI
+- Monitoramento com Spring Boot Actuator
+- Persistência com PostgreSQL
+- Versionamento de banco de dados com Flyway
+- Execução com Docker Compose
+
+## Tecnologias
+
+- Java 21+
+- Spring Boot
+- Spring Web
+- Spring Data JPA
+- PostgreSQL
+- Flyway
+- Spring Boot Actuator
+- Swagger/OpenAPI
+- Lombok
+- Maven
+- Docker
+- Docker Compose
 
 ## Requisitos
 
 - Java 21+
 - Maven
-- PostgreSQL
+- Docker e Docker Compose
+- PostgreSQL, caso a aplicação seja executada sem Docker
 
-## Executando o Projeto
+## Executando o projeto
 
-1. Clone o repositório:
+Clone o repositório:
 
 ```bash
-git https://github.com/bispobr/spring-java-crud.git
+git clone https://github.com/bispobr/spring-java-crud.git
+cd spring-java-crud
 ```
 
-2. Altere o arquivo de configuração **application.properties** com as credenciais de login e acesso do PostgreSQL do seu ambiente.
+Configure o `application.properties` de acordo com o ambiente utilizado e informe as configurações necessárias para conexão com o PostgreSQL.
 
-## Como usar
-
-1. Inicie a aplicação
-2. A API está acessível através do endereço http://localhost:8080
-3. A documentação da API está acessível através do Link http://localhost:8080/swagger-ui/index.html#/
-4. O endpoint de saúde e métricas do Actuator está acessível através do Link http://localhost:8080/actuator/health
-
-## Como Rodar em um Container (Opcional)
-
-1. Construa o projeto:
+Execute a aplicação com Maven:
 
 ```bash
-mvn clean package 
+mvn spring-boot:run
 ```
 
-2. Gere a Imagem Docker. Com o Docker  instalado execute:
+A API estará disponível em:
 
-```bash
-docker-compose up --build
+```text
+http://localhost:8080
+```
+
+## Swagger / OpenAPI
+
+Com a aplicação em execução, acesse a documentação interativa:
+
+```text
+http://localhost:8080/swagger-ui/index.html
+```
+
+## Actuator
+
+Endpoint de saúde da aplicação:
+
+```text
+http://localhost:8080/actuator/health
 ```
 
 ## API Endpoints
-API contem os seguintes endpoints:
 
-```http request
-POST /produto - Cadastra um novo produto
+### Criar produto
+
+```http
+POST /produto
 Content-Type: application/json
+```
 
+Exemplo:
+
+```json
 {
-  "nome": "xxxxxx",
-  "preco": 00000
-}
-```
-| Parâmetro   | Tipo       | Descrição                           |
-| :---------- | :--------- | :---------------------------------- |
-| `nome` | `String` | **Obrigatório**. O nome do produto 
-| `preco` | `Integer` | **Obrigatório**. O preço do produto 
-
-
-```http request
-GET /produto -  Lista todos os produtos
-```
-
-```http request
-GET /produto/{id} -  Lista produto por id
-```
-
-| Parâmetro   | Tipo       | Descrição                           |
-| :---------- | :--------- | :---------------------------------- |
-| `id` | `String` | **Obrigatório**. O id do produto 
-
-```http request
-PUT /produto/{id} - Atualizar um produto existente
-Content-Type: application/json
-
-{
- "nome": "xxxxxx",
- "preco": 00
+  "nome": "Notebook",
+  "preco": 3500
 }
 ```
 
-| Parâmetro   | Tipo       | Descrição                           |
-| :---------- | :--------- | :---------------------------------- |
-| `id` | `String` | **Obrigatório**. O id do produto 
-| `nome` | `String` | **Obrigatório**. O nome do produto 
-| `preco` | `Integer` | **Obrigatório**. O preço do produto 
+| Parâmetro | Tipo | Descrição |
+|---|---|---|
+| `nome` | `String` | Nome do produto. |
+| `preco` | `Integer` | Preço do produto. |
 
-```http request
-DELETE /produto/{id} - Remover  produto de id especificado.
+### Listar produtos
+
+```http
+GET /produto
 ```
 
+Retorna todos os produtos cadastrados.
+
+### Buscar produto por ID
+
+```http
+GET /produto/{id}
+```
+
+Retorna o produto correspondente ao ID informado.
+
+### Atualizar produto
+
+```http
+PUT /produto/{id}
+Content-Type: application/json
+```
+
+Exemplo:
+
+```json
+{
+  "nome": "Notebook atualizado",
+  "preco": 3800
+}
+```
+
+| Parâmetro | Tipo | Descrição |
+|---|---|---|
+| `id` | `String` | Identificador do produto. |
+| `nome` | `String` | Nome do produto. |
+| `preco` | `Integer` | Preço do produto. |
+
+### Excluir produto
+
+```http
+DELETE /produto/{id}
+```
+
+Remove o produto correspondente ao ID informado.
+
+## Banco de dados
+
+A aplicação utiliza PostgreSQL como banco de dados relacional.
+
+As alterações do schema são gerenciadas pelo Flyway por meio de migrations versionadas.
+
+## Cache
+
+O projeto utiliza cache local para reduzir consultas repetidas, conforme a implementação da aplicação.
+
+## Docker
+
+Para executar a aplicação utilizando Docker Compose:
+
+```bash
+mvn clean package
+docker-compose up --build
+```
+
+Os serviços necessários serão iniciados conforme a configuração do `docker-compose.yml`.
+
+## Testes
+
+Execute os testes automatizados com:
+
+```bash
+mvn test
+```
+
+## Fluxo simplificado
+
+```text
+Cliente
+   │
+   ▼
+API REST
+   │
+   ▼
+Validação
+   │
+   ▼
+Serviço
+   │
+   ├── Cache
+   │
+   ▼
+Persistência JPA
+   │
+   ▼
+PostgreSQL
+```
+
+## Status
+
+Projeto desenvolvido para praticar a construção de APIs REST com Spring Boot, incluindo CRUD, persistência com PostgreSQL, Flyway, cache, validação, tratamento de exceções, documentação OpenAPI, monitoramento e execução em containers.
